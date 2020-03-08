@@ -1,0 +1,8 @@
+{
+   "tickers":[
+      "MSFT"
+   ],
+   "period":"max",
+   "interval":"1d",
+   "data_folder":"/data"
+}
