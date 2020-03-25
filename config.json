@@ -9,6 +9,10 @@
       "history": "master_history.csv",
       "dividend": "master_dividend.csv"
    },
-   "trade_activities_excel": "./trade_activities_examples/trade_activities.xlsx",
-   "ticker_category_csv": "./trade_activities_examples/ticker_category.csv"
+   "trade_activities_folder": "./trade_activities_examples",
+   "trade_activities_inputs": {
+      "trade_activities_excel": "trade_activities.xlsx",
+      "ticker_category_csv": "ticker_category.csv"
+   },
+   "analysis_output_excel": "./Investment_Summary.xlsx"
 }

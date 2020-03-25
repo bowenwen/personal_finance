@@ -14,7 +14,7 @@ class MarketData:
     def __init__(self, config_file = "config.json"):
         self.config = {}
         # read self.config
-        with open('config.json', 'r') as f:
+        with open(config_file, 'r') as f:
             self.config = json.load(f)
         self.directory = os.path.abspath(
             os.getcwd() + self.config['market_data_folder'])
