@@ -57,13 +57,14 @@ class TradeAnalyzer:
         activities_file = os.path.join(
             self.trades_directory,
             self.config['trade_activities_inputs']['trade_activities_excel'])
-        activities_excel = pd.ExcelFile(activities_file)
+        activities_excel = pd.ExcelFile(activities_file, engine='openpyxl')
         activities_excel_list = []
         for i in activities_excel.sheet_names:
             activities_excel_list.append(
                 pd.read_excel(
                     activities_file,
-                    sheet_name=i)
+                    sheet_name=i,
+                    engine='openpyxl')
             )
         self.activities_df = pd.concat(activities_excel_list)
         self.activities_df = self.activities_df.sort_values(by=['Date'])
@@ -152,7 +153,17 @@ class TradeAnalyzer:
                 writer,
                 sheet_name='Asset_Values',
                 index=False)
-                
+
+        # write raw data to csv
+        asset_pct_pivot_df.to_csv(
+            self.config['analysis_output_excel'].replace(
+                ".xlsx", "_asset_allo.csv"),
+            index=False)
+        assetcattime_pivot_df.to_csv(
+            self.config['analysis_output_excel'].replace(
+                ".xlsx", "_asset_val.csv"),
+            index=False)
+
     def __income_by_asset(self):
         """Analyze income by asset"""
         pass

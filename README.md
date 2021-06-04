@@ -14,7 +14,7 @@ The personal finance helper downloads stock market data and analyze your trade a
 conda remove --name yfinance --all
 conda create -n yfinance -y python=3.6 ipykernel
 conda activate yfinance
-pip install yfinance xlrd xlsxwriter --upgrade --no-cache-dir
+pip install yfinance xlrd xlsxwriter openpyxl --upgrade --no-cache-dir
 ipython kernel install --user --name=yfinance
 conda deactivate
 ```
