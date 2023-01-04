@@ -3,3 +3,6 @@ __pycache__/*
 
 market_data/*
 trade_activities*/*
+data_summary/*.csv
+data_summary/*.xlsx
+*.ods
