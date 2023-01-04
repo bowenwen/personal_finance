@@ -88,12 +88,39 @@ class TradeAnalyzer:
     def __asset_allocation(self):
         """Analyze allocation of asset"""
         # asset over time
-        assetovertime_df = self.activities_df[['Date', 'Ticker', 'Quantity']]\
+        assetovertime_df = self.activities_df[['Account', 'Date', 'Ticker', 'Quantity']]\
             .merge(self.ticker_cat_df, on='Ticker')\
             .merge(self.history_df, on=['Ticker', 'Date'])
+        # asset cumulative quantity over time by account
+        assetacctime_df = pd.pivot_table(
+            assetovertime_df,
+            values='Quantity',
+            index='Date',
+            columns=['Account', 'Ticker'],
+            aggfunc=np.sum)\
+            .fillna(0)\
+            .aggregate(np.cumsum)\
+            .stack(level=[0, 1])\
+            .reset_index()\
+            .rename(columns={0: 'Quantity'})\
+            .merge(
+            self.history_df,
+            on=['Ticker', 'Date'])
+        # calculate market value of asset over time
+        assetacctime_df['Market_Value'] = assetacctime_df['Close'] * \
+            assetacctime_df['Quantity']
+        # generate pivot table of market asset value
+        assetacctime_pivot_df = pd.pivot_table(
+            assetacctime_df,
+            values='Market_Value',
+            index='Date',
+            columns='Account',
+            aggfunc=np.sum)\
+            .fillna(0)\
+            .reset_index()
+        assetacctime_pivot_df['Date'] = assetacctime_pivot_df['Date']\
+            .astype('datetime64[ns]')
         # asset cumulative quantity over time by category
-        # TODO: rename test to something meaningful
-        #
         assetcattime_df = pd.pivot_table(
             assetovertime_df,
             values='Quantity',
@@ -145,6 +172,10 @@ class TradeAnalyzer:
 
         # write to excel
         with pd.ExcelWriter(self.config['analysis_output_excel'], engine='xlsxwriter') as writer:  # pylint: disable=abstract-class-instantiated
+            assetacctime_pivot_df.to_excel(
+                writer,
+                sheet_name='Asset_Accounts',
+                index=False)
             asset_pct_pivot_df.to_excel(
                 writer,
                 sheet_name='Asset_Allocation',
@@ -155,6 +186,10 @@ class TradeAnalyzer:
                 index=False)
 
         # write raw data to csv
+        assetacctime_pivot_df.to_csv(
+            self.config['analysis_output_excel'].replace(
+                ".xlsx", "_asset_acct.csv"),
+            index=False)
         asset_pct_pivot_df.to_csv(
             self.config['analysis_output_excel'].replace(
                 ".xlsx", "_asset_allo.csv"),
