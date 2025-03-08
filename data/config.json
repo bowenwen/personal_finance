@@ -1,0 +1,34 @@
+{
+   "tickers": [
+      "MSFT",
+      "GOOGL",
+      "VUN.TO",
+      "VUS.TO",
+      "XUU.TO",
+      "XUH.TO",
+      "XIC.TO",
+      "IBG.TO",
+      "XEF.TO",
+      "XFH.TO",
+      "XIG.TO",
+      "CHB.TO",
+      "XHY.TO",
+      "XCB.TO",
+      "VAB.TO",
+      "XBB.TO",
+      "XFR.TO"
+   ],
+   "period": "max",
+   "interval": "1d",
+   "market_data_folder": "/data/market_data",
+   "market_data_export": {
+      "history": "master_history.csv",
+      "dividend": "master_dividend.csv"
+   },
+   "trade_activities_folder": "/data/trade_activities",
+   "trade_activities_inputs": {
+      "trade_activities_excel": "trade_activities.xlsx",
+      "ticker_category_csv": "ticker_category.csv"
+   },
+   "analysis_output_excel": "output/Investment_Summary.xlsx"
+}
