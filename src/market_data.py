@@ -97,7 +97,8 @@ class MarketData:
             for filename in dir_dict:
                 # load raw data
                 master_df = pd.concat(
-                    [pd.read_csv(dir_dict[filename]), master_df], ignore_index=True
+                    [pd.read_csv(dir_dict[filename], skiprows=[1]), master_df],
+                    ignore_index=True,
                 )
             master_df.drop_duplicates(subset=None, keep="first", inplace=True)
             master_df.to_csv(

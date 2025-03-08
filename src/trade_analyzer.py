@@ -189,7 +189,6 @@ class TradeAnalyzer:
                 aggfunc=np.sum,
             )
             .fillna(0)
-            .groupby(level=0)
             .apply(lambda x: 100 * x / float(x.sum()))
             .reset_index()
         )
